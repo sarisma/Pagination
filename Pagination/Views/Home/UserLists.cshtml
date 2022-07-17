@@ -1,0 +1,101 @@
+﻿@using PagedList.Mvc
+@model  PagedList.IPagedList<Pagination.Models.UserModel>
+@*@model IEnumerable<Pagination.Models.UserModel>*@
+
+@{
+    ViewBag.Title = "UserLists";
+}
+
+<style>
+        #users {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #users td, #users th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #users tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #users tr:hover {
+            background-color: #ddd;
+        }
+
+        #users th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            font-size:18px;
+            background-color: #258bba;
+            color: white;
+        }
+        .ul.pagination {
+            display: inline-block;
+            padding: 0;
+            margin: 0;
+          }
+
+        ul.pagination li {
+            display: inline;
+        }
+
+        ul.pagination li a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+        }
+
+         ul.pagination li a.active {
+             background-color: #258bba;
+             color: white;
+         }
+
+         ul.pagination li a:hover:not(.active) {
+              background-color: #ddd;
+         }
+
+</style>
+@using (Html.BeginForm())
+{
+<center>
+    <h2>User Lists</h2>
+    <div>
+        <table id="users">
+            <tr>
+                <th style="width:5%; text-align:left">@Html.Label("Username")</th>
+                <th style="width:15%; text-align:left">@Html.Label("Full Name")</th>
+                <th style="width:15%; text-align:left">@Html.Label("Mobile Number")</th>
+                <th style="width:15%; text-align:left">@Html.Label("Email")</th>
+            </tr>
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr style="border:1px solid red">
+                    <td>@Model[i].UserName</td>
+                    <td>@Model[i].FullName</td>
+                    <td>@Model[i].MobileNUmber</td>
+                    <td>@Model[i].Email</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div id="container" style="margin-left: 20px">
+        <p></p>
+        <p></p>
+        <div class="pagination">
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+            of @Model.PageCount @Html.PagedListPager(Model, page => Url.Action("UserLists", new { page }))
+        </div>
+    </div>
+</center>
+
+  
+}
+

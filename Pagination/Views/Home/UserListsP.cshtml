@@ -1,0 +1,131 @@
+﻿@model IEnumerable<Pagination.Models.UserModel>
+
+@{
+    ViewBag.Title = "UserListsP";
+}
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        #users {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #users td, #users th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #users tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            #users tr:hover {
+                background-color: #ddd;
+            }
+
+            #users th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                font-size: 18px;
+                background-color: #258bba;
+                color: white;
+            }
+
+        .pagination {
+            display: inline-block;
+        }
+
+            .pagination a {
+                color: black;
+                float: left;
+                padding: 8px 16px;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #ddd;
+                margin: 0 4px;
+            }
+
+                .pagination a.active {
+                    background-color: #4CAF50;
+                    color: white;
+                    border: 1px solid #4CAF50;
+                }
+    </style>
+</head>
+<body>
+<center>
+    <h2>User Lists</h2>
+
+    <table class="table" id="users">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MobileNUmber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MobileNUmber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+    <div class="pagination" style="margin-left: 400px">
+        <a  href="#">&laquo;</a>
+        <a value="1" href="#">1</a>
+        <a id ="aa" href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">&raquo;</a>
+    </div>
+</center>
+</body>
+
+</html>
+<script>
+    $(document).ready(function () {
+        $("#aa").click(function () {
+            console.log('ss');
+            var val = $('#aa').text();
+            console.log(val);
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("UserListsP")',
+                data: {val : val},
+                success: function (data) {
+                    return data;
+                }
+            });
+        });
+    });
+
+</script>
