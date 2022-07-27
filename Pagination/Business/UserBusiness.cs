@@ -2,6 +2,7 @@
 using Pagination.Repository;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -17,9 +18,19 @@ namespace Pagination.Business
         public List<UserModel> GetUserList()
         {
             return _repo.GetUserList();
-        } public List<UserModel> GetUserList(int pagenum)
+        } 
+        //public List<UserModel> GetUserList(int pagenum)
+        //{
+        //    return _repo.GetUserList(pagenum);
+        //}
+        public List<UserModel> GetUserList(int startRowIndex, int maxRows)
         {
-            return _repo.GetUserList(pagenum);
+            return _repo.GetUserList(startRowIndex, maxRows);
         }
+        public int TotalRecords()
+        {
+            return _repo.TotalRecords();
+        }
+    
     }
 }

@@ -7,17 +7,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using System.Data;
 
 namespace Pagination.Controllers
 {
     public class HomeController : Controller
     {
         string controllerName = "Home";
-      IUserBusiness _IUB;
-      
+        IUserBusiness _IUB;
+
         public HomeController()
         {
-           UserBusiness IUB = new UserBusiness();
+            UserBusiness IUB = new UserBusiness();
             _IUB = IUB;
 
         }
@@ -38,27 +39,34 @@ namespace Pagination.Controllers
 
             return View();
         }
-        //works
+        //paged list
         public ActionResult UserLists(int? page)
         {
             int pageSize = 50;
             int pageIndex = page ?? 1;
             UserModel filterModel = new UserModel();
             List<UserModel> data = _IUB.GetUserList();
-           
+
             IPagedList<UserModel> datapage = data.ToPagedList(pageIndex, pageSize);
 
             return View(datapage);
 
         }
-        //doesn't work. changes to be made in stored procedure
+        //Custom paging
         [HttpGet]
         public ActionResult UserListsP(int? page)
         {
+            int maxRows = 10;
+            double mRows = maxRows;
+            int startIndex;
             int pageIndex = page ?? 1;
+            int tot = (int)Math.Ceiling((_IUB.TotalRecords()) / mRows);
+            ViewBag.TotalPages = tot;
+            startIndex = ((pageIndex - 1) * maxRows) + 1;
+            ViewBag.CurrentPageIndex = pageIndex;
             UserModel filterModel = new UserModel();
-            List<UserModel> datapage = _IUB.GetUserList(pageIndex);
-           
+            List<UserModel> datapage = _IUB.GetUserList(startIndex, maxRows);
+
             return View(datapage);
 
         }

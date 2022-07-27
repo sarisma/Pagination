@@ -80,5 +80,19 @@ namespace Pagination.Repository
                 return ds.Tables[0];
             }
         }
+        public System.Data.DataRow ExecuteDataRow(string sql)
+        {
+            using (var ds = ExecuteDataset(sql))
+            {
+                if (ds == null || ds.Tables.Count == 0)
+                    return null;
+
+                if (ds.Tables[0].Rows.Count == 0)
+                    return null;
+
+                return ds.Tables[0].Rows[0];
+            }
+        }
+        
     }
 }
