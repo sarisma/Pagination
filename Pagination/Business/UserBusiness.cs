@@ -18,11 +18,11 @@ namespace Pagination.Business
         public List<UserModel> GetUserList()
         {
             return _repo.GetUserList();
-        } 
-        //public List<UserModel> GetUserList(int pagenum)
-        //{
-        //    return _repo.GetUserList(pagenum);
-        //}
+        }
+        public List<UserModel> GetUserListP(int pagenum,int maxrows)
+        {
+            return _repo.GetUserListP(pagenum,maxrows);
+        }
         public List<UserModel> GetUserList(int startRowIndex, int maxRows)
         {
             return _repo.GetUserList(startRowIndex, maxRows);

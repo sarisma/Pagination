@@ -29,7 +29,7 @@ namespace Pagination.Repository
                     {
                         FullName = item["full_name"].ToString(),
                         UserName = item["user_name"].ToString(),
-                        MobileNUmber = item["user_mobile_no"].ToString(),
+                        MobileNumber = item["user_mobile_no"].ToString(),
                         Email = item["user_email"].ToString()
                        
                     };
@@ -39,34 +39,35 @@ namespace Pagination.Repository
             }
             return list;
         }
-        //public List<UserModel> GetUserList(int pagenum)
-        //{
-        //    string sql = "exec sproc_user_detail @flag='paging'";
-        //         sql += ",@PageNumber= " + pagenum  ;
+        public List<UserModel> GetUserListP(int pagenum,int maxrows)
+        {
+            string sql = "exec sproc_user_detail @flag='p'";
+            sql += ",@PageNumber= " + pagenum;
+            sql += ",@maximumRows= " + maxrows;
 
-        //    var dt = dao.ExecuteDataTable(sql);
-        //    List<UserModel> list = new List<UserModel>();
+            var dt = dao.ExecuteDataTable(sql);
+            List<UserModel> list = new List<UserModel>();
 
-        //    if (dt != null)
-        //    {
-        //        foreach (DataRow item in dt.Rows)
-        //        {
-        //            var data = new UserModel
-        //            {
-        //                FullName = item["full_name"].ToString(),
-        //                UserName = item["user_name"].ToString(),
-        //                MobileNUmber = item["user_mobile_no"].ToString(),
-        //                Email = item["user_email"].ToString()
+            if (dt != null)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+                    var data = new UserModel
+                    {
+                        FullName = item["full_name"].ToString(),
+                        UserName = item["user_name"].ToString(),
+                        MobileNumber = item["user_mobile_no"].ToString(),
+                        Email = item["user_email"].ToString()
 
-        //            };
-        //            list.Add(data);
-                    
-        //        }
-        //    }
-            
+                    };
+                    list.Add(data);
 
-        //    return list;
-        //}    
+                }
+            }
+
+
+            return list;
+        }
         public List<UserModel> GetUserList(int startRowIndex, int maxRows)
         {
             string sql = "exec sproc_user_detail @flag='paging'";
@@ -85,7 +86,7 @@ namespace Pagination.Repository
                         SN = item["RowRank"].ToString(),
                         FullName = item["full_name"].ToString(),
                         UserName = item["user_name"].ToString(),
-                        MobileNUmber = item["user_mobile_no"].ToString(),
+                        MobileNumber = item["user_mobile_no"].ToString(),
                         Email = item["user_email"].ToString()
 
                     };

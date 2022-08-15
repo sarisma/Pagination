@@ -24,7 +24,9 @@ namespace Pagination.Controllers
         }
         public ActionResult Index()
         {
-            return View();
+            UserModel filterModel = new UserModel();
+            List<UserModel> data = _IUB.GetUserList();
+            return View(data);
         }
 
         public ActionResult About()
@@ -70,5 +72,60 @@ namespace Pagination.Controllers
             return View(datapage);
 
         }
+        public ActionResult PagedList(int? page)
+        {
+            int maxRows = 10;
+            double mRows = maxRows;
+            //int startIndex;
+            int pageIndex = page ?? 1;
+            int tot = (int)Math.Ceiling((_IUB.TotalRecords()) / mRows);
+            ViewBag.TotalPages = tot;
+            //startIndex = ((pageIndex - 1) * maxRows) + 1;
+            ViewBag.CurrentPageIndex = pageIndex;
+            UserModel filterModel = new UserModel();
+            List<UserModel> datapage = _IUB.GetUserListP(pageIndex, maxRows);
+
+            return View(datapage);
+
+        }
+        [HttpPost]
+        public JsonResult GetList()
+        {
+            int totalRecord = 0;
+            int filterRecord = 0;
+
+            var draw = Request.Form["draw"].FirstOrDefault();
+
+
+            //var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+
+
+            ///var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+
+
+            //var searchValue = Request.Form["search[value]"].FirstOrDefault();
+
+
+            int pageSize = (int?)Convert.ToInt32(Request.Form["length"].FirstOrDefault()) ?? 0;
+            
+
+            int skip = (int?)Convert.ToInt32(Request.Form["start"].FirstOrDefault()) ?? 0;
+
+
+
+            // var data = _context.Set<Employees>().AsQueryable();
+
+            //get total count of data in table
+            totalRecord = _IUB.TotalRecords();
+
+
+            //pagination
+            var empList = _IUB.GetUserListP(skip, pageSize);
+            filterRecord = empList.Count();
+
+            var returnObj = new { draw = draw, recordsTotal = totalRecord, recordsFiltered = filterRecord, data = empList };
+            return Json(returnObj);
+        }
     }
 }
+
