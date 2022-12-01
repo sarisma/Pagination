@@ -96,30 +96,13 @@ namespace Pagination.Controllers
 
             var draw = Request.Form["draw"].FirstOrDefault();
 
-
-            //var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
-
-
-            ///var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-
-
-            //var searchValue = Request.Form["search[value]"].FirstOrDefault();
-
-
             int pageSize = (int?)Convert.ToInt32(Request.Form["length"].FirstOrDefault()) ?? 0;
             
 
             int skip = (int?)Convert.ToInt32(Request.Form["start"].FirstOrDefault()) ?? 0;
 
-
-
-            // var data = _context.Set<Employees>().AsQueryable();
-
-            //get total count of data in table
             totalRecord = _IUB.TotalRecords();
 
-
-            //pagination
             var empList = _IUB.GetUserListP(skip, pageSize);
             filterRecord = empList.Count();
 
